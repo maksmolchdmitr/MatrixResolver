@@ -2,6 +2,8 @@ public class ComplexNumber {
     private final double a;
     private final double b;
 
+    public final static ComplexNumber ZERO = new ComplexNumber(0, 0);
+    public final static ComplexNumber MINUS_ONE = new ComplexNumber(-1, 0);
     public ComplexNumber(double a, double b) {
         this.a = a;
         this.b = b;
@@ -12,6 +14,10 @@ public class ComplexNumber {
     }
     public static ComplexNumber sum(ComplexNumber x, ComplexNumber y){
         return new ComplexNumber(x.a+y.a, x.b+y.b);
+    }
+
+    public static ComplexNumber sub(ComplexNumber x, ComplexNumber y){
+        return new ComplexNumber(x.a-y.a, x.b-y.b);
     }
 
     public static ComplexNumber mul(ComplexNumber x, ComplexNumber y){
@@ -39,5 +45,10 @@ public class ComplexNumber {
             }
         }
         return String.format("|%f|(cos%f-i*sin%f)", r, argument, argument);
+    }
+
+    @Override
+    public String toString() {
+        return a+"+"+b+"i";
     }
 }
