@@ -1,27 +1,33 @@
-public class ComplexNumber {
+package numbers;
+
+public class Complex {
     private final double a;
     private final double b;
 
-    public final static ComplexNumber ZERO = new ComplexNumber(0, 0);
-    public final static ComplexNumber MINUS_ONE = new ComplexNumber(-1, 0);
-    public ComplexNumber(double a, double b) {
+    public final static Complex ZERO = new Complex(0, 0);
+    public final static Complex MINUS_ONE = new Complex(-1, 0);
+    public Complex(double a, double b) {
         this.a = a;
         this.b = b;
     }
-
-    public ComplexNumber add(ComplexNumber anotherComplexNumber){
-        return new ComplexNumber(this.a + anotherComplexNumber.a, this.b + anotherComplexNumber.b);
-    }
-    public static ComplexNumber sum(ComplexNumber x, ComplexNumber y){
-        return new ComplexNumber(x.a+y.a, x.b+y.b);
+    public Complex(double a){
+        this.a = a;
+        this.b = 0;
     }
 
-    public static ComplexNumber sub(ComplexNumber x, ComplexNumber y){
-        return new ComplexNumber(x.a-y.a, x.b-y.b);
+    public Complex add(Complex anotherComplexNumber){
+        return sum(this, anotherComplexNumber);
+    }
+    public static Complex sum(Complex x, Complex y){
+        return new Complex(x.a+y.a, x.b+y.b);
     }
 
-    public static ComplexNumber mul(ComplexNumber x, ComplexNumber y){
-        return new ComplexNumber(x.a*y.a-x.b*y.b, x.a*y.b+x.b*y.a);
+    public static Complex sub(Complex x, Complex y){
+        return new Complex(x.a-y.a, x.b-y.b);
+    }
+
+    public static Complex mul(Complex x, Complex y){
+        return new Complex(x.a*y.a-x.b*y.b, x.a*y.b+x.b*y.a);
     }
 
     public String trigonometricForm(){
@@ -49,6 +55,6 @@ public class ComplexNumber {
 
     @Override
     public String toString() {
-        return a+"+"+b+"i";
+        return a+((b==0)?(""):("+"+b+"i"));
     }
 }
