@@ -26,4 +26,10 @@ public class Reader {
         res.fillTable(table);
         return res;
     }
+    public static int readInt(){
+        return scanner.nextInt();
+    }
+    public static String readString(){
+        return scanner.next();
+    }
 }
