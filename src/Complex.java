@@ -1,5 +1,3 @@
-package numbers;
-
 public class Complex {
     private final double a;
     private final double b;
@@ -47,14 +45,14 @@ public class Complex {
             }else if(b<0){
                 argument = -Math.PI/2;
             }else {
-                return "Not trigonometric form";
+                return "none";
             }
         }
-        return String.format("|%f|(cos%f-i*sin%f)", r, argument, argument);
+        return String.format("|%f|(cos(%f)+i*sin(%f))", r, argument, argument);
     }
 
     @Override
     public String toString() {
-        return a+((b==0)?(""):("+"+b+"i"));
+        return a+((b==0)?(""):(((b>0)?("+"):(""))+b+"i"));
     }
 }

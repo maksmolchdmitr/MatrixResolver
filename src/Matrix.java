@@ -1,16 +1,27 @@
-import javax.imageio.ImageTranscoder;
 import java.util.Arrays;
 
 public class Matrix {
-    private ComplexNumber[][] table;
-    private int row;
-    private int col;
+    private Complex[][] table;
+    private final int row;
+    private final int col;
     public Matrix(int row, int col){
         this.row = row;
         this.col = col;
-        table = new ComplexNumber[row][col];
+        table = new Complex[row][col];
     }
 
+    public void fillTable(Complex[][] table){
+        this.table = table;
+    }
+    public void fillTable(double[][] table){
+        Complex[][] newTable = new Complex[table.length][table[0].length];
+        for (int i=0; i< table.length; i++){
+            for(int j=0; j< table[j].length; j++){
+                newTable[i][j] = new Complex(table[i][j]);
+            }
+        }
+        fillTable(newTable);
+    }
     public static Matrix sum(Matrix a, Matrix b){
         if(a.row!=b.row || a.col!=b.col){
             throw new RuntimeException("Illegal sizes of matrix");
@@ -31,7 +42,7 @@ public class Matrix {
         Matrix res = new Matrix(a.row, b.col);
         for(int i=0; i<a.col; i++){
             for(int j=0; j<a.col; j++){
-                res.table[i][j] = ComplexNumber.ZERO;
+                res.table[i][j] = Complex.ZERO;
                 for(int k=0; k<a.col; k++){
                     res.table[i][j].add(a.table[i][j].add(b.table[i][j]));
                 }
@@ -50,18 +61,18 @@ public class Matrix {
         return res;
     }
 
-    public ComplexNumber det(){
+    public Complex det(){
         return det(this);
     }
 
-    public static ComplexNumber det(Matrix matrix){
+    public static Complex det(Matrix matrix){
         if(matrix.row!=matrix.col){
             throw new RuntimeException("Illegal sizes of matrix");
         }
         if(matrix.row==2){
-            return ComplexNumber.sub(ComplexNumber.mul(matrix.table[0][0], matrix.table[1][1]), ComplexNumber.mul(matrix.table[0][1], matrix.table[1][0]));
+            return Complex.sub(Complex.mul(matrix.table[0][0], matrix.table[1][1]), Complex.mul(matrix.table[0][1], matrix.table[1][0]));
         }else {
-            ComplexNumber sum = ComplexNumber.ZERO;
+            Complex sum = Complex.ZERO;
             for(int j=0; j<matrix.col; j++){
                 sum = sum.add(algebraicComplement(matrix, 0, j));
             }
@@ -69,8 +80,8 @@ public class Matrix {
         }
     }
 
-    public static ComplexNumber algebraicComplement(Matrix matrix, int iRow, int jCol){
-        ComplexNumber[][] resTable = new ComplexNumber[matrix.row-1][matrix.col-1];
+    public static Complex algebraicComplement(Matrix matrix, int iRow, int jCol){
+        Complex[][] resTable = new Complex[matrix.row-1][matrix.col-1];
         for(int i=0; i<matrix.row-1; i++){
             for(int j=0; j<matrix.col-1; j++){
                 resTable[i][j] = matrix.table[i+((i>=iRow)?(1):(0))][j+((j>=jCol)?(1):(0))];
@@ -79,14 +90,22 @@ public class Matrix {
         Matrix minor = new Matrix(matrix.row-1, matrix.col-1);
         minor.table = resTable;
         if((iRow+jCol)%2==0){
-            return ComplexNumber.mul(minor.det(), matrix.table[iRow][jCol]);
+            return Complex.mul(minor.det(), matrix.table[iRow][jCol]);
         }else {
-            return ComplexNumber.mul(ComplexNumber.mul(minor.det(), ComplexNumber.MINUS_ONE), matrix.table[iRow][jCol]);
+            return Complex.mul(Complex.mul(minor.det(), Complex.MINUS_ONE), matrix.table[iRow][jCol]);
         }
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(table);
+        StringBuilder stringBuilder = new StringBuilder();
+        for(int i=0; i<row; i++){
+            for(int j=0; j<col; j++){
+                stringBuilder.append(String.format("%15s", table[i][j]));
+            }
+            stringBuilder.append("\n");
+        }
+        stringBuilder.delete(stringBuilder.length()-1, stringBuilder.length());
+        return stringBuilder.toString();
     }
 }
