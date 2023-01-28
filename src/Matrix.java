@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public class Matrix {
     private Complex[][] table;
     private final int row;
@@ -99,9 +97,16 @@ public class Matrix {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
+        int maxSize = 0;
+        for(int i=0; i<row; i++) {
+            for (int j = 0; j < col; j++) {
+                maxSize = Math.max(table[i][j].toString().length(), maxSize);
+            }
+        }
+        final int shift = 3;
         for(int i=0; i<row; i++){
             for(int j=0; j<col; j++){
-                stringBuilder.append(String.format("%15s", table[i][j]));
+                stringBuilder.append(String.format("%"+(maxSize+shift)+"s", table[i][j]));
             }
             stringBuilder.append("\n");
         }
