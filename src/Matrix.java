@@ -38,11 +38,11 @@ public class Matrix {
             throw new RuntimeException("Illegal sizes of matrix");
         }
         Matrix res = new Matrix(a.row, b.col);
-        for(int i=0; i<a.col; i++){
-            for(int j=0; j<a.col; j++){
+        for(int i=0; i<a.row; i++){
+            for(int j=0; j<b.col; j++){
                 res.table[i][j] = Complex.ZERO;
                 for(int k=0; k<a.col; k++){
-                    res.table[i][j].add(a.table[i][j].add(b.table[i][j]));
+                    res.table[i][j] = res.table[i][j].add(Complex.mul(a.table[i][k], b.table[k][j]));
                 }
             }
         }
